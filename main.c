@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "cool_wc.h"
 #include "strbuf.h"
@@ -26,20 +27,20 @@ int main(int argc, char *argv[])
     printf("\n");
     printf("\n");
 
-    FILE *file;
-    int ch;
-
-    /* Check if a file name is provided */
-    if (argc != 2) {
-        printf("Usage: %s <filename>\n", argv[0]);
+    if (argc == 1 && isatty(fileno(stdin))) {
+        fprintf(stderr, "Warning: No filename given and no piped input detected.\n");
+        fprintf(stderr, "Usage: ./mywc <filename>\n");
         return 1;
     }
 
-    /* Open the file for readingarray_strbuf.items[i] */
-    file = fopen(argv[1], "r");
-    if (file == NULL) {
-        printf("Error: Could not open file %s\n", argv[1]);
-        return 1;
+    FILE *file = stdin;
+    int ch;
+
+    if (argc > 1) {
+        file = fopen(argv[1], "r");
+        if (!file) {
+            panic_constchar("Could not open file");
+        }
     }
 
     WCTable t;
@@ -101,7 +102,10 @@ int main(int argc, char *argv[])
     
     WCTable_print(&t);
 
-    fclose(file);
+    
+    if (file != stdin) {
+        fclose(file);
+    }
 
     return 0;
 };
