@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "vector": "c",
+        "list_strbuf.h": "c",
+        "string_view": "c"
+    }
+}
