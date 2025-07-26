@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c89 -O2 -MMD
-OBJ = main.o strbuf.o list_strbuf.o
+CFLAGS = -Wall -Wextra -std=gnu89 -O2 -MMD
+OBJ = main.o strbuf.o wctable.o
 DEP = $(OBJ:.o=.d)
 TARGET = program
 
